@@ -1,11 +1,12 @@
 package com.ascenseur.modele;
 
 import java.util.List;
+import java.util.Scanner;
 
 public abstract class Ascenseur {
     
 	protected String nomAscenseur ;
-	protected int etageCourant ; // Etage où se trouve l'ascenseur 
+	protected int etageCourant = 0 ; // Etage où se trouve l'ascenseur 
 	protected int poids;         // Poids de l'ascenseur une fois que des personnes monte
 	protected int poidsMax ;     // Poids maximum qu'elle peut supporter
 	
@@ -76,11 +77,60 @@ public abstract class Ascenseur {
 	}
 	
 	
-	//**************** Travail à fair **************************
+	//**************** APPEL ASCENSEUR **************************
 	
 	
+	public int appleAscenseur () {
+		int maPosition = 0;
+		
+		Scanner saisie = new Scanner(System.in);
+		
+		System.out.println("\n Quelle est votre position actuelle ????");
+		
+		maPosition = saisie.nextInt() ;
+		
+		return maPosition ;
+	}
+	
+	//**************** LA METHODE POUR MONTER **************************
+	
+	public void monter()   {
+ 
+		
+		this.etageCourant = appleAscenseur () ;
+		
+		Scanner saisie = new Scanner(System.in);
+		System.out.println("\n Veuillez saisir le numero de votre : ");
+		int numEtage = saisie.nextInt() ;
+		
+		int destination = numEtage ;
 
-    
-    
+		int sommePoids = 0; 
+		
+		for (Personne  i : personnes) 
+			sommePoids = sommePoids + i.getPoids();
+		    
+			if(sommePoids > this.poidsMax) {
+				System.out.println("Désolé vous êtes nombreux par rapport au poids de l'ascenseur ");
+				System.out.println("\n Tolal poids autorisée : "+this.poidsMax+" kg"+" , "
+					                	+ "et vous faites au total un poids de : "+sommePoids+" kg");
+			} else {
+				for(int compteur = etageCourant ; compteur <= destination ; compteur++) {
+				   
+					System.out.println(" Vous êtes monté au niveau :  "+etageCourant); 	
+				    etageCourant = etageCourant + 1;
+				    try {
+						Thread.sleep(3000);  
+					} catch (InterruptedException e) {
+						 
+						e.printStackTrace();
+					}
+				}  			    
+				    System.out.println("\n Felicitation !!! Vous êtes arrivée a votre destination : Etage  ["+destination+"]");
+				   
+			}
+					  
+	}
+  
 
 }
